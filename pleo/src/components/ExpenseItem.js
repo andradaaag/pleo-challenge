@@ -15,7 +15,7 @@ class ExpenseItem extends Component {
     renderRedirect = () => {
         const path = '/expense/' + this.props.expense.id
         if (this.state.redirect) {
-            return <Redirect to={path} />
+            return <Redirect push to={path} />
         }
     }
 
