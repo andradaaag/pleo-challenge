@@ -5,7 +5,7 @@ class Expenses extends Component {
     render() {
         return (
             this.props.expenses.map((expense) => (
-                <ExpenseItem expense={expense} />
+                <ExpenseItem expense={expense} key={expense.id} />
             ))
         )
     }
