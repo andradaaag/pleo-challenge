@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Expense from './components/Expense';
+import Expenses from './components/Expenses';
 
 class App extends Component {
   state = {
@@ -24,7 +25,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Expense expense={this.state.expense} />
+        {/* <Expense expense={this.state.expense} /> */}
+        <Expenses expenses={[this.state.expense, this.state.expense]}/>
       </div>
     );
   }

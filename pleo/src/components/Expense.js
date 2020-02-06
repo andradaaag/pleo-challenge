@@ -14,6 +14,9 @@ class Expense extends Component {
                 <label>Date </label>
                 <label>{date}</label>
                 <br />
+                <label>Merchant </label>
+                <label>{this.props.expense.merchant}</label>
+                <br />
                 <label>Category </label>
                 <label>{this.props.expense.category}</label>
                 <br />
