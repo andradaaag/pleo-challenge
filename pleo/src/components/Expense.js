@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Upload from './Upload';
 import { connect } from 'react-redux';
+import * as getExpensesActions from '../actions/getExpenses';
 
 class Expense extends Component {
     render() {
@@ -35,8 +36,11 @@ class Expense extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return state;
+const mapStateToProps = (state) => {
+    return {
+        expenses: state.getExpensesReducer.expenses,
+        loaded: state.getExpensesReducer.loaded
+    }
 }
 
-export default connect(mapStateToProps)(Expense);
+export default connect(mapStateToProps, getExpensesActions)(Expense);
