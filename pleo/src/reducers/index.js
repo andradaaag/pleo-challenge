@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux'
-// import updateExpensesReducer from './updateExpenses'
-import getExpensesReducer from './getExpenses'
+import expensesReducer from './expenses'
 
 const reducers = combineReducers({
-    // updateExpensesReducer,
-    getExpensesReducer
+    expensesReducer
 })
 
 export default reducers;

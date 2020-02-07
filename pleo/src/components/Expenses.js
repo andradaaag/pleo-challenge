@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ExpenseItem from './ExpenseItem';
 import { connect } from 'react-redux';
-import * as getExpensesActions from '../actions/getExpenses';
+import * as expensesActions from '../actions';
 
 class Expenses extends Component {
     componentDidMount() {
@@ -22,9 +22,9 @@ class Expenses extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        expenses: state.getExpensesReducer.expenses,
-        loaded: state.getExpensesReducer.loaded
+        expenses: state.expensesReducer.expenses,
+        loaded: state.expensesReducer.loaded
     }
 }
 
-export default connect(mapStateToProps, getExpensesActions)(Expenses);
+export default connect(mapStateToProps, expensesActions)(Expenses);

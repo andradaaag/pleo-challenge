@@ -8,18 +8,18 @@ import { PersistGate } from 'redux-persist/integration/react';
 import thunk from 'redux-thunk';
 import App from './App';
 import './index.css';
-import reducers from './reducers';
+import expensesReducer from './reducers';
 
 const persistConfig = {
     key: 'root',
     storage
 }
 
-const persistedReducers = persistReducer(persistConfig, reducers)
+const persistedReducer = persistReducer(persistConfig, expensesReducer)
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-    persistedReducers,
+    persistedReducer,
     composeEnhancer(applyMiddleware(thunk)),
 );
 const persistor = persistStore(store)
