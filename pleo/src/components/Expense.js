@@ -8,6 +8,7 @@ class Expense extends Component {
         super(props);
 
         this.handleComment = this.handleComment.bind(this);
+        this.handleReceipt = this.handleReceipt.bind(this);
         this.save = this.save.bind(this);
 
         const params = this.props.match.params
@@ -18,17 +19,21 @@ class Expense extends Component {
     }
 
     save() {
-        const data = {
+        const commentData = {
             id: this.state.expense.id,
             comment: this.state.expense.comment
         }
-        this.props.saveExpenses(data)
+        this.props.saveExpensesWithComment(commentData)
+        const receiptData = {
+            id: this.state.expense.id,
+            receipt: this.state.file
+        }
+        this.props.saveExpensesWithReceipt(receiptData)
     }
 
     handleComment(event) {
         const comment = event.target.value
         var expense = this.state.expense
-        expense.comment = comment
 
         // Update local state
         this.setState({
@@ -42,9 +47,21 @@ class Expense extends Component {
         });
     }
 
+    handleReceipt = function (file) {
+        var expense = this.state.expense
+        console.log("Handle receipt", file)
+
+        // Update only local state
+        this.setState({
+            expense: expense,
+            file: file
+        })
+    }
+
     render() {
         const expense = this.state.expense
         const date = (new Date(expense.date)).toLocaleDateString()
+        console.log("Expense render", this.state)
         return (
             <div className="Expense">
                 <h1>This is an expense</h1>
@@ -69,7 +86,7 @@ class Expense extends Component {
                 </label>
                 <br />
                 <label>Receipts </label>
-                <Upload receipts={expense.receipts[0]} />
+                <Upload receipt={expense.receipts[0]} handleReceipt={this.handleReceipt} />
                 <button onClick={this.save}>Save</button>
             </div>
         );

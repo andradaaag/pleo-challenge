@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'
 
 export function getExpenses() {
     return (dispatch) => {
@@ -15,26 +15,43 @@ export const loadExpenses = data => ({
     }
 })
 
-export function saveExpenses(data) {
+export function saveExpensesWithComment(data) {
     return (dispatch) => {
         const body = {
             comment: data.comment
         }
         return axios.post('http://localhost:3000/expenses/' + data.id, body)
         .then(res => {
-            console.log(res)
+            console.log("POST Comment Res", res)
         }).catch(err => {
-            console.log(err)
+            console.log("POST Comment Res", err)
         })
     }
 }
 
 export const updateExpenseWithComment = (data) => {
-    console.log(data)
     return {
         type: 'ADD_COMMENT',
         payload: {
             updateExpense: data
         }
+    }
+}
+
+export function saveExpensesWithReceipt(data) {
+    return (dispatch) => {
+        const fd = new FormData()
+        fd.append('receipt', data.receipt)
+        console.log("POST Receipt Req", data.receipt)
+        return axios.post('http://localhost:3000/expenses/' + data.id + '/receipts', fd, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then(res => {
+            console.log("POST Receipt Res", res)
+        }).catch(err => {
+            console.log("POST Receipt Res", err)
+        })
     }
 }
