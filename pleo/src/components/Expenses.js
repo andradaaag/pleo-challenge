@@ -10,7 +10,10 @@ const options = ["Merchant", "Date", "Amount", "Currency"]
 class Expenses extends Component {
     constructor(props) {
         super(props)
+
+        const userEmail = this.props.match.params.userEmail
         this.state = {
+            userEmail: userEmail,
             filter: '',
             selectedOption: options[0]
         }
@@ -53,7 +56,7 @@ class Expenses extends Component {
             default:
                 break
         }
-        return value.includes(filter)
+        return value.includes(filter) && expense.user.email === this.state.userEmail
     }
 
     render() {
