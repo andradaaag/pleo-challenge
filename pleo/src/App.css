@@ -85,7 +85,8 @@ button {
     float: left;
     font-size: 18px;
     font-family: 'Nunito', sans-serif;
-    padding: 10px 20px;
+    padding: 10px 0px;
+    padding-left: 30px;
     width: 65%;
     height: 41.5px;
 }
@@ -95,15 +96,24 @@ button {
     float: right;
     font-size: 18px;
     font-family: 'Nunito', sans-serif;
-    padding: 10px 20px;
+    padding: 10px 0px;
+    padding-right: 30px;
     width: 20%;
 }
 
 .filterDropDownMenu {
     font-size: 18px;
     font-family: 'Nunito', sans-serif;
-    width: 75%;
+    width: 79%;
     padding: 0.4px 0.4px;
+}
+
+#expensesContainer {
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    width: 90%;
+    height: 88%;
 }
 
 .expenseItem:hover {
@@ -111,9 +121,7 @@ button {
 }
 
 .expenseItem {
-    position: absolute;
-    top: 10%;
-    left: 5%;
+    position: relative;
     width: 500px;
     height: 50px;
     border: solid 0.1px #d4d4d4;

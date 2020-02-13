@@ -58,7 +58,7 @@ class Expenses extends Component {
             default:
                 break
         }
-        return value.includes(filter) && expense.user.email === this.state.userEmail
+        return value.includes(filter) && (expense.user.email === this.state.userEmail || this.state.userEmail === "admin")
     }
 
     render() {
@@ -76,7 +76,7 @@ class Expenses extends Component {
                     selectedOption={this.state.selectedOption}
                     handleSelect={this.handleSelect}
                 />
-                <div>
+                <div id="expensesContainer">
                     {this.props.expenses
                         .filter((expense) => this.filter(expense))
                         .map((expense) => {
