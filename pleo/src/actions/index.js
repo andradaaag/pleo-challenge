@@ -1,12 +1,25 @@
 import axios from 'axios'
 
-export function getExpenses() {
+export function getExpenses(currentPage, expensesPerPage) {
+    const offset = currentPage * expensesPerPage
+    const url = 'http://localhost:3000/expenses?limit=' + expensesPerPage + '&offset=' + offset
     return (dispatch) => {
-        return axios.get('http://localhost:3000/expenses').then((response) => {
-            dispatch(loadExpenses(response.data));
+        return axios.get(url).then((response) => {
+            if (currentPage == 0) {
+                dispatch(loadInitialExpenses(response.data))
+            } else {
+                dispatch(loadExpenses(response.data));
+            }
         })
     }
 }
+
+export const loadInitialExpenses = data => ({
+    type: 'LOAD_INITIAL_EXPENSES',
+    payload: {
+        expenses: data
+    }
+})
 
 export const loadExpenses = data => ({
     type: 'LOAD_EXPENSES',
@@ -21,11 +34,11 @@ export function saveExpensesWithComment(data) {
             comment: data.comment
         }
         return axios.post('http://localhost:3000/expenses/' + data.id, body)
-        .then(res => {
-            console.log("POST Comment Res", res)
-        }).catch(err => {
-            console.log("POST Comment Res", err)
-        })
+            .then(res => {
+                console.log("POST Comment Res", res)
+            }).catch(err => {
+                console.log("POST Comment Res", err)
+            })
     }
 }
 
@@ -47,12 +60,12 @@ export function saveExpensesWithReceipt(data) {
                 'Content-Type': 'multipart/form-data'
             }
         })
-        .then(res => {
-            console.log("POST Receipt Res", res)
-            dispatch(loadExpense(res.data));
-        }).catch(err => {
-            console.log("POST Receipt Res", err)
-        })
+            .then(res => {
+                console.log("POST Receipt Res", res)
+                dispatch(loadExpense(res.data));
+            }).catch(err => {
+                console.log("POST Receipt Res", err)
+            })
     }
 }
 

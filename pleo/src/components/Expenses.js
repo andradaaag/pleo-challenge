@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import ExpenseItem from './ExpenseItem';
 import { connect } from 'react-redux';
+import InfiniteScroll from "react-infinite-scroll-component";
 import * as expensesActions from '../actions';
 import Filter from './Filter'
 import FilterByDropDown from './FilterByDropDown'
+import EndMessage from './EndMessage'
 
 const options = ["Merchant", "Date", "Amount", "Currency"]
 
@@ -15,12 +17,22 @@ class Expenses extends Component {
         this.state = {
             userEmail: userEmail,
             filter: '',
-            selectedOption: options[0]
+            selectedOption: options[0],
+            currentPage: 0,
+            expensesPerPage: 13
         }
         this.handleFilter = this.handleFilter.bind(this)
         this.handleSelect = this.handleSelect.bind(this)
+        this.fetchMoreData = this.fetchMoreData.bind(this)
 
-        this.props.getExpenses()
+        this.props.getExpenses(this.state.currentPage, this.state.expensesPerPage)
+    }
+
+    fetchMoreData() {
+        this.setState({
+            currentPage: this.state.currentPage + 1
+        })
+        this.props.getExpenses(this.state.currentPage, this.state.expensesPerPage)
     }
 
     handleFilter(event) {
@@ -61,8 +73,9 @@ class Expenses extends Component {
     }
 
     render() {
+        const hasMore = this.state.currentPage * this.state.expensesPerPage <= this.props.totalExpenses
         return (
-            <div className="container">
+            <div id="expenses" className="container">
                 <Filter
                     filter={this.state.filter}
                     handleFilter={this.handleFilter}
@@ -73,11 +86,20 @@ class Expenses extends Component {
                     handleSelect={this.handleSelect}
                 />
                 <div id="expensesContainer">
-                    {this.props.expenses
-                        .filter((expense) => this.filter(expense))
-                        .map((expense) => {
-                            return (<ExpenseItem expense={expense} key={expense.id} />)
-                        })}
+                    <InfiniteScroll
+                        dataLength={this.props.expenses.length}
+                        next={this.fetchMoreData}
+                        hasMore={hasMore}
+                        loader={<h4>Loading...</h4>}
+                        scrollableTarget="expenses"
+                        endMessage={<EndMessage />}
+                    >
+                        {this.props.expenses
+                            .filter((expense) => this.filter(expense))
+                            .map((expense) => {
+                                return (<ExpenseItem expense={expense} key={expense.id} />)
+                            })}
+                    </InfiniteScroll>
                 </div>
             </div>
         )
@@ -87,7 +109,7 @@ class Expenses extends Component {
 const mapStateToProps = (state) => {
     return {
         expenses: state.expensesReducer.expenses,
-        loaded: state.expensesReducer.loaded
+        totalExpenses: state.expensesReducer.totalExpenses
     }
 }
 

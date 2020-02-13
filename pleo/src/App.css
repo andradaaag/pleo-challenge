@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
+@font-face {
+    font-family: 'awesomestFontEver';
+    src:    url('./awesomestFontEver.ttf') format('truetype'),
+            url('./awesomestFontEver.woff') format('woff');
+  }
 
 body {
     background-color: white;
@@ -44,7 +49,7 @@ button {
 	left: 0;
 	right: 0;
     margin: auto;
-    width: 600px;
+    width: 630px;
     height: 1000px;
     border: solid 0.1px #d4d4d4;
     font-size: 18px;
@@ -208,4 +213,9 @@ button {
     display: block;
     padding: 10px 20px;
     margin-left: 67%;
+}
+
+#endMessage {
+    font-size: 40px;
+    font-family: 'awesomestFontEver';
 }
