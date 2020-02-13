@@ -42,7 +42,6 @@ export function saveExpensesWithReceipt(data) {
     return (dispatch) => {
         const fd = new FormData()
         fd.append('receipt', data.receipt)
-        console.log("POST Receipt Req", data.receipt)
         return axios.post('http://localhost:3000/expenses/' + data.id + '/receipts', fd, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -50,8 +49,16 @@ export function saveExpensesWithReceipt(data) {
         })
         .then(res => {
             console.log("POST Receipt Res", res)
+            dispatch(loadExpense(res.data));
         }).catch(err => {
             console.log("POST Receipt Res", err)
         })
     }
 }
+
+export const loadExpense = data => ({
+    type: 'LOAD_EXPENSE',
+    payload: {
+        expense: data
+    }
+})

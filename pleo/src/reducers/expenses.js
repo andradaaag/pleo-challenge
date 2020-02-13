@@ -4,8 +4,7 @@ const expensesReducer = (state = {
 }, action) => {
     const { type, payload } = action
     var expenses = state.expenses
-    const isUpdating = expenses.length > 0 && payload && payload.updateExpense
-    var index = isUpdating ? expenses.findIndex(expense => expense.id === payload.updateExpense.id) : 0
+    var index = 0
 
     switch (type) {
         case 'LOAD_EXPENSES':
@@ -14,7 +13,16 @@ const expensesReducer = (state = {
                 expenses: filtered,
                 loaded: true
             };
+        case 'LOAD_EXPENSE':
+            console.log("Reducer LOAD_EXPENSE", payload.expense)
+            index = expenses.findIndex(expense => expense.id === payload.expense.id)
+            expenses[index] = payload.expense
+            return {
+                ...state,
+                expenses: expenses
+            };
         case 'ADD_COMMENT':
+            index = expenses.findIndex(expense => expense.id === payload.updateExpense.id)
             expenses[index].comment = payload.updateExpense.comment
             return {
                 ...state,

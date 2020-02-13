@@ -19,8 +19,7 @@ class Expenses extends Component {
         }
         this.handleFilter = this.handleFilter.bind(this)
         this.handleSelect = this.handleSelect.bind(this)
-    }
-    componentDidMount() {
+
         this.props.getExpenses()
     }
 
@@ -62,9 +61,6 @@ class Expenses extends Component {
     }
 
     render() {
-        if (!this.props.loaded) {
-            return <div />
-        }
         return (
             <div className="container">
                 <Filter
