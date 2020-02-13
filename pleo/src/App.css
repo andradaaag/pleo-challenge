@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
+
+body {
+    background-color: white;
+    color: #282c34;
+    padding: 40px;
+    font-family: 'Nunito', sans-serif;
+    text-align: center;
+  }
+
+input {
+    text-align: center;
+    color: #d4d4d4;
+    border: solid 0.1px #d4d4d4;
+}
+
+button {
+    background-color: #edc7b7;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    padding: 7px 20px;
+    font-size: 16px;
+    font-family: 'Nunito', sans-serif;
+      
+}
+
+.container {
+    position: fixed;
+    top: 24%;
+    left: 32%;
+    width: 400px;
+    height: 550px;
+    border: solid 0.1px #d4d4d4;
+}
+
+#logo {
+    position: relative;
+    top: 35%;
+}
+
+#userEmail {
+    position: relative;
+    font-size: 16px;
+    font-family: 'Nunito', sans-serif;
+    padding: 7px 20px;
+    top: 45%;
+}
+
+#welcomePageButton {
+    position: relative;
+    top: 49%;
+    background-color: #ff3366;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 20px 5%;
+}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
+import logo from '../logo.svg'
 
 class Welcome extends Component {
     state = {
@@ -28,12 +29,15 @@ class Welcome extends Component {
 
     render() {
         return (
-            <div>
+            <div className="container">
+                <img src={logo} id="logo" alt="Cool Logo" ahref="https://www.pleo.io/"/>
+                <br/>
                 {this.renderRedirect()}
-                <input type="text" value={this.state.userEmail}
+                <input type="text" id="userEmail" value={this.state.userEmail}
                     onChange={this.handleEmail.bind(this)} placeholder="You email here"
                 />
-                <button onClick={this.setRedirect}>Get me my expenses</button>
+                <br/>
+                <button id="welcomePageButton" onClick={this.setRedirect}>Get me my expenses</button>
             </div>
         )
     }

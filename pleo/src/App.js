@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Expense from './components/Expense';
 import Expenses from './components/Expenses';
 import Welcome from './components/Welcome';
+import './App.css';
 
 class App extends Component {
   render() {
