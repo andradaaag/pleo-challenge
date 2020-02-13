@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import Upload from './Upload';
 import { connect } from 'react-redux';
 import * as expensesActions from '../actions';
+import Upload from './Upload'
+import ExpenseDetail from './ExpenseDetail'
 
 class Expense extends Component {
     constructor(props) {
@@ -60,34 +61,25 @@ class Expense extends Component {
 
     render() {
         const expense = this.state.expense
-        const date = (new Date(expense.date)).toLocaleDateString()
+        const date = new Date(expense.date)
+        const dateString = date.toDateString() + ", " + date.toTimeString().slice(0, 5)
+        const amount = expense.amount.value + " " + expense.amount.currency
         console.log("Expense render", this.state)
         return (
-            <div className="Expense">
-                <h1>This is an expense</h1>
-                <label>Amount </label>
-                <label>{expense.amount.value} </label>
-                <label>{expense.amount.currency}</label>
-                <br />
-                <label>Date </label>
-                <label>{date}</label>
-                <br />
-                <label>Merchant </label>
-                <label>{expense.merchant}</label>
-                <br />
-                <label>Category </label>
-                <label>{expense.category}</label>
-                <br />
-                <label>
-                    Comment
-                <input type="text" name="comment" value={expense.comment}
-                        onChange={this.handleComment}
-                    />
-                </label>
-                <br />
-                <label>Receipts </label>
+            <div className="container">
                 <Upload receipt={expense.receipts[0]} handleReceipt={this.handleReceipt} />
-                <button onClick={this.save}>Save</button>
+                <div className="expenseDetails">
+                    <ExpenseDetail label="Amount" value={amount} />
+                    <ExpenseDetail label="Date" value={dateString} />
+                    <ExpenseDetail label="Merchant" value={expense.merchant} />
+                    <ExpenseDetail label="Category" value={expense.category} />
+                </div>
+                <textarea id="comment" className="expenseDetail"
+                    placeholder="Add your comment here"
+                    value={expense.comment}
+                    onChange={this.handleComment}
+                />
+                <button id="saveButton" className="expenseDetail" onClick={this.save}>Save</button>
             </div>
         );
     }

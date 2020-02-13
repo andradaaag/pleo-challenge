@@ -19,7 +19,7 @@ button {
     text-align: center;
     text-decoration: none;
     padding: 7px 20px;
-    font-size: 16px;
+    font-size: 18px;
     font-family: 'Nunito', sans-serif;
       
 }
@@ -47,6 +47,8 @@ button {
     width: 600px;
     height: 1000px;
     border: solid 0.1px #d4d4d4;
+    font-size: 18px;
+    font-family: 'Nunito', sans-serif;
 }
 
 #logo {
@@ -68,7 +70,6 @@ button {
     background-color: #ff3366;
     color: white;
     font-weight: bold;
-    font-size: 18px;
     border-radius: 20px 5%;
 }
 
@@ -83,8 +84,6 @@ button {
 .filterInputContainer {
     position: relative;
     float: left;
-    font-size: 18px;
-    font-family: 'Nunito', sans-serif;
     padding: 10px 0px;
     padding-left: 30px;
     width: 65%;
@@ -94,8 +93,6 @@ button {
 .filterDropDown {
     position: relative;
     float: right;
-    font-size: 18px;
-    font-family: 'Nunito', sans-serif;
     padding: 10px 0px;
     padding-right: 30px;
     width: 20%;
@@ -127,8 +124,6 @@ button {
     height: 50px;
     border: solid 0.1px #d4d4d4;
     padding: 7px 20px;
-    font-size: 18px;
-    font-family: 'Nunito', sans-serif;
 }
 
 .merchant {
@@ -158,4 +153,59 @@ button {
     width: 100%;
     font-size: 16px;
     padding: 0px 3px;
+}
+
+#receipt {
+    display: inline-block;
+    margin-top: 15%;
+    width: 60%;
+    padding: 1px 3px;
+}
+
+#uploadReceipt {
+    display: inline-block;
+    margin-top: 5px;
+    width: 60%;
+    max-height: 50%;
+    font-size: 16px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.expenseDetails {
+    margin-top: 10px;
+}
+
+.expenseDetailLabel {
+    display: inline-block;
+    text-align: left;
+    width: 20%;
+    padding: 5px 0px;
+    font-weight: bold;
+}
+
+.expenseDetailValue {
+    display: inline-block;
+    text-align: right;
+    width: 40%;
+    padding: 5px 0px;
+}
+
+#comment {
+    display: inline-block;
+    text-align: left;
+    width: 58%;
+    height: 150px;
+    resize: vertical;
+    max-height:40%;
+    padding: 5px 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-family: 'Nunito', sans-serif;
+}
+
+#saveButton {
+    display: block;
+    padding: 10px 20px;
+    margin-left: 67%;
 }

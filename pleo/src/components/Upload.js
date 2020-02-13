@@ -33,9 +33,8 @@ class Upload extends Component {
         console.log("Upload state", this.state)
         return (
             <div>
-                <input type="file" onChange={this.handleChange} />
-                <br />
-                <img src={this.state.preview} alt="Receipt" width="300" height="300" />
+                <img id="receipt" src={this.state.preview} alt="Receipt" />
+                <input id="uploadReceipt" type="file" onChange={this.handleChange} />
             </div>
         );
     }
