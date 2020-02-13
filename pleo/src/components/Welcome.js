@@ -27,16 +27,27 @@ class Welcome extends Component {
         })
     }
 
+    enterPressed(event) {
+        var code = event.keyCode || event.which;
+        if (code === 13) {
+            this.setRedirect()
+        }
+    }
+
     render() {
         return (
             <div className="welcomeContainer">
-                <img src={logo} id="logo" alt="Cool Logo" ahref="https://www.pleo.io/"/>
-                <br/>
+                <img src={logo} id="logo" alt="Cool Logo" ahref="https://www.pleo.io/" />
+                <br />
                 {this.renderRedirect()}
-                <input type="text" id="userEmail" value={this.state.userEmail} spellCheck="false"
-                    onChange={this.handleEmail.bind(this)} placeholder="You email here"
+                <input type="text" id="userEmail"
+                    value={this.state.userEmail}
+                    spellCheck="false"
+                    onChange={this.handleEmail.bind(this)}
+                    onKeyPress={this.enterPressed.bind(this)}
+                    placeholder="You email here"
                 />
-                <br/>
+                <br />
                 <button id="welcomePageButton" onClick={this.setRedirect}>Get me my expenses</button>
             </div>
         )
