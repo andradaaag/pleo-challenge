@@ -19,7 +19,9 @@ class Filter extends Component {
                 <Dropdown options={this.props.options}
                     onChange={this.handleSelect}
                     value={this.props.selectedOption}
-                    placeholder={this.props.selectedOption} />
+                    placeholder={this.props.selectedOption}
+                    className="filterDropDown"
+                    menuClassName="filterDropDownMenu" />
             </div>
         );
     }

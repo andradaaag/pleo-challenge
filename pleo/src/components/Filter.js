@@ -3,14 +3,13 @@ import React, { Component } from 'react'
 class Filter extends Component {
     render() {
         return (
-            <div>
-                <label>
-                    Filter
-                    <input type="text" name="filter"
-                        value={this.props.filter}
-                        onChange={this.props.handleFilter}
-                    />
-                </label>
+            <div className="filterInputContainer">
+                <input type="text" name="filter"
+                    id="filterInput"
+                    placeholder="Filter receipts here"
+                    value={this.props.filter}
+                    onChange={this.props.handleFilter}
+                />
             </div>
         );
     }

@@ -29,7 +29,7 @@ class Welcome extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="welcomeContainer">
                 <img src={logo} id="logo" alt="Cool Logo" ahref="https://www.pleo.io/"/>
                 <br/>
                 {this.renderRedirect()}

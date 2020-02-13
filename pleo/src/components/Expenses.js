@@ -45,7 +45,9 @@ class Expenses extends Component {
                 value = expense.merchant.toLowerCase()
                 break
             case "Date":
-                value = (new Date(expense.date)).toLocaleDateString()
+                const date = new Date(expense.date)
+                const dateString = date.toDateString() + ", " + date.toTimeString().slice(0, 5)
+                value = dateString.toLowerCase()
                 break
             case "Amount":
                 value = expense.amount.value.toLowerCase()
@@ -64,7 +66,7 @@ class Expenses extends Component {
             return <div />
         }
         return (
-            <div>
+            <div className="container">
                 <Filter
                     filter={this.state.filter}
                     handleFilter={this.handleFilter}

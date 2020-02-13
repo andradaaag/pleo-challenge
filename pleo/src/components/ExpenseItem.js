@@ -21,22 +21,15 @@ class ExpenseItem extends Component {
 
     render() {
         const expense = this.props.expense
-        const date = (new Date(expense.date)).toLocaleDateString()
+        const date = new Date(expense.date)
+        const dateString = date.toDateString() + ", " + date.toTimeString().slice(0, 5)
         return (
-            <div onClick={this.setRedirect}>
+            <div className="expenseItem" onClick={this.setRedirect}>
                 {this.renderRedirect()}
-                <h1>This is an expense item</h1>
-                <label>Merchant </label>
-                <label>{expense.merchant}</label>
-                <br />
-                <label>Amount </label>
-                <label>{expense.amount.value} </label>
-                <label>{expense.amount.currency}</label>
-                <br />
-                <label>Date </label>
-                <label>{date}</label>
-                <br />
-                <br />
+                <label className="merchant">{expense.merchant}</label>
+                <label className="value">{expense.amount.value} </label>
+                <label className="currency">{expense.amount.currency}</label>
+                <label className="date">{dateString}</label>
             </div>
         )
     }
