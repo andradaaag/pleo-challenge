@@ -7,6 +7,7 @@ class Filter extends Component {
                 <input type="text" name="filter"
                     id="filterInput"
                     placeholder="Filter receipts here"
+                    spellCheck="false"
                     value={this.props.filter}
                     onChange={this.props.handleFilter}
                 />
