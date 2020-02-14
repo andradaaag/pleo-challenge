@@ -13,26 +13,21 @@ class Expenses extends Component {
     constructor(props) {
         super(props)
 
-        const userEmail = this.props.match.params.userEmail
         this.state = {
-            userEmail: userEmail,
+            userEmail: this.props.match.params.userEmail,
             filter: '',
             selectedOption: options[0],
-            currentPage: 0,
             expensesPerPage: 13
         }
         this.handleFilter = this.handleFilter.bind(this)
         this.handleSelect = this.handleSelect.bind(this)
         this.fetchMoreData = this.fetchMoreData.bind(this)
 
-        this.props.getExpenses(this.state.currentPage, this.state.expensesPerPage)
+        this.props.getExpenses(this.state.userEmail, 0, this.state.expensesPerPage, [])
     }
 
     fetchMoreData() {
-        this.setState({
-            currentPage: this.state.currentPage + 1
-        })
-        this.props.getExpenses(this.state.currentPage, this.state.expensesPerPage)
+        this.props.getExpenses(this.state.userEmail, this.props.currentPage, this.state.expensesPerPage, this.props.expenses)
     }
 
     handleFilter(event) {
@@ -50,6 +45,9 @@ class Expenses extends Component {
 
     filter = (expense) => {
         const filter = this.state.filter.toLowerCase()
+        if (filter.length === 0) {
+            return true
+        }
         var value = ''
         switch (this.state.selectedOption) {
             case "Merchant":
@@ -69,11 +67,15 @@ class Expenses extends Component {
             default:
                 break
         }
-        return value.includes(filter) && (expense.user.email === this.state.userEmail || this.state.userEmail === "admin")
+        return value.includes(filter)
     }
 
     render() {
-        const hasMore = this.state.currentPage * this.state.expensesPerPage <= this.props.totalExpenses
+        if (!this.props.expenses || this.props.expenses.length === 0) {
+            return (<div />)
+        }
+        const hasMore = this.props.currentPage * this.state.expensesPerPage < this.props.totalExpenses
+        const filtered = this.props.expenses.filter((expense) => this.filter(expense))
         return (
             <div id="expenses" className="container">
                 <Filter
@@ -90,15 +92,13 @@ class Expenses extends Component {
                         dataLength={this.props.expenses.length}
                         next={this.fetchMoreData}
                         hasMore={hasMore}
-                        loader=""
+                        loader="Loading"
                         scrollableTarget="expenses"
                         endMessage={<EndMessage />}
                     >
-                        {this.props.expenses
-                            .filter((expense) => this.filter(expense))
-                            .map((expense) => {
-                                return (<ExpenseItem expense={expense} key={expense.id} />)
-                            })}
+                        {filtered.map((expense, index) => {
+                            return (<ExpenseItem expense={expense} key={index} />)
+                        })}
                     </InfiniteScroll>
                 </div>
             </div>
@@ -109,7 +109,8 @@ class Expenses extends Component {
 const mapStateToProps = (state) => {
     return {
         expenses: state.expensesReducer.expenses,
-        totalExpenses: state.expensesReducer.totalExpenses
+        totalExpenses: state.expensesReducer.totalExpenses,
+        currentPage: state.expensesReducer.currentPage
     }
 }
 

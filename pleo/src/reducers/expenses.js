@@ -1,6 +1,7 @@
 const expensesReducer = (state = {
     expenses: [],
-    totalExpenses: 0
+    totalExpenses: 0,
+    currentPage: 0
 }, action) => {
     const { type, payload } = action
     var expenses = state.expenses
@@ -8,16 +9,18 @@ const expensesReducer = (state = {
 
     switch (type) {
         case 'LOAD_INITIAL_EXPENSES':
-            expenses = payload.expenses.expenses
             return {
-                expenses: expenses,
-                totalExpenses: payload.expenses.total
+                expenses: payload.expenses,
+                totalExpenses: payload.total,
+                currentPage: payload.currentPage
             };
         case 'LOAD_EXPENSES':
-            const moreExpenses = expenses.concat(payload.expenses.expenses)
+            const moreExpenses = expenses.concat(payload.expenses)
             return {
                 ...state,
                 expenses: moreExpenses,
+                totalExpenses: payload.total,
+                currentPage: payload.currentPage
             };
         case 'LOAD_EXPENSE':
             index = expenses.findIndex(expense => expense.id === payload.expense.id)
@@ -34,8 +37,8 @@ const expensesReducer = (state = {
                 expenses: expenses
             };
         default:
-            return state;
+            return state
     }
-};
+}
 
 export default expensesReducer;

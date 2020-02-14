@@ -1,30 +1,99 @@
 import axios from 'axios'
 
-export function getExpenses(currentPage, expensesPerPage) {
-    const offset = currentPage * expensesPerPage
-    const url = 'http://localhost:3000/expenses?limit=' + expensesPerPage + '&offset=' + offset
-    return (dispatch) => {
-        return axios.get(url).then((response) => {
-            if (currentPage == 0) {
-                dispatch(loadInitialExpenses(response.data))
-            } else {
-                dispatch(loadExpenses(response.data));
-            }
-        })
+const adminEmail = 'admin'
+
+export function getExpenses(userEmail, currentPage, expensesPerPage, expensesSoFar) {
+    return dispatch => {
+        return getExpensesWrapper(userEmail, currentPage, expensesPerPage, expensesSoFar)
+            .then(result => {
+                dispatchExpenses(dispatch, result)
+            })
     }
 }
 
-export const loadInitialExpenses = data => ({
+const getExpensesWrapper = async (userEmail, currentPage, expensesPerPage, expensesSoFar) => {
+    var result = {
+        expensesSoFar: expensesSoFar,
+        currentPage: currentPage,
+        numberOfAddedExpenses: 0,
+        keepFetchingExpenses: true
+    }
+
+    result = await getExpensesByUser(userEmail, result.currentPage, expensesPerPage, result.expensesSoFar, result.numberOfAddedExpenses)
+    result.currentPage += 1
+    while (result.keepFetchingExpenses) {
+        result = await getExpensesByUser(userEmail, result.currentPage, expensesPerPage, result.expensesSoFar, result.numberOfAddedExpenses)
+        result.currentPage += 1
+    }
+    return result
+}
+
+function dispatchExpenses(dispatch, result) {
+    const data = {
+        expenses: result.expensesSoFar,
+        total: result.total,
+        currentPage: result.currentPage
+    }
+    console.log("Expenses successfully loaded", data)
+    dispatch(loadInitialExpenses(data))
+}
+
+async function getExpensesByUser(userEmail, currentPage, expensesPerPage, expensesSoFar, numberOfAddedExpenses) {
+    const offset = currentPage * expensesPerPage
+    const url = formURL(expensesPerPage, offset)
+    const response = await getExpensesFromAPI(url)
+
+    return processResponse(userEmail, currentPage, expensesPerPage, expensesSoFar, numberOfAddedExpenses, response)
+}
+
+function processResponse(userEmail, currentPage, expensesPerPage, expensesSoFar, numberOfAddedExpenses, response) {
+    const total = response.data.total
+    const newExpenses = response.data.expenses
+
+    const newFilteredExpenses = filterExpenses(newExpenses, userEmail)
+    numberOfAddedExpenses += newFilteredExpenses.length
+    expensesSoFar = expensesSoFar.concat(newFilteredExpenses)
+    const keepFetchingExpenses = keepFetching(currentPage, expensesPerPage, numberOfAddedExpenses, total)
+
+    const result = {
+        expensesSoFar: expensesSoFar,
+        currentPage: currentPage,
+        total: total,
+        numberOfAddedExpenses: numberOfAddedExpenses,
+        keepFetchingExpenses: keepFetchingExpenses
+    }
+    return result
+}
+
+function keepFetching(currentPage, expensesPerPage, numberOfAddedExpenses, total) {
+    const notEnoughPerPage = numberOfAddedExpenses < expensesPerPage
+    const hasMore = (currentPage + 1) * expensesPerPage < total
+    return notEnoughPerPage && hasMore
+}
+
+function filterExpenses(expenses, userEmail) {
+    return expenses.filter(expense => expense.user.email === userEmail || userEmail === adminEmail)
+}
+
+function formURL(expensesPerPage, offset) {
+    return 'http://localhost:3000/expenses?limit=' + expensesPerPage + '&offset=' + offset
+}
+
+async function getExpensesFromAPI(url) {
+    let response = await axios.get(url)
+    if (response.status === 200) {
+        return response
+    } else {
+        console.log("Error", response)
+    }
+}
+
+export const loadInitialExpenses = (data) => ({
     type: 'LOAD_INITIAL_EXPENSES',
     payload: {
-        expenses: data
-    }
-})
-
-export const loadExpenses = data => ({
-    type: 'LOAD_EXPENSES',
-    payload: {
-        expenses: data
+        expenses: data.expenses,
+        total: data.total,
+        currentPage: data.currentPage
     }
 })
 
