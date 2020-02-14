@@ -90,7 +90,7 @@ class Expenses extends Component {
                         dataLength={this.props.expenses.length}
                         next={this.fetchMoreData}
                         hasMore={hasMore}
-                        loader={<h4>Loading...</h4>}
+                        loader=""
                         scrollableTarget="expenses"
                         endMessage={<EndMessage />}
                     >
