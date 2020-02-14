@@ -1,36 +1,34 @@
 # Front-end challenge
-Implement an expenses list fetching all expenses from the provided API. Allow the user to add notes and upload receipt pictures to each expense.
+Implement an expenses list fetching all expenses from the provided API and support filtering. Allow the user to add notes and upload receipt pictures to each expense.
 
-See the [API details](https://github.com/pleo-io/frontend-challenge/blob/master/api/README.md) for implementation.
+See the [API details](https://github.com/pleo-io/frontend-challenge/blob/master/api/README.md) for implementation and [Challenge details](https://github.com/pleo-io/frontend-challenge) for more information about the challenge.
 
-## Functional requirements
-- User can list expenses
-- User can add a comment on an expense
-- User can filter on expenses (client side filters)
-- User can add a receipt image on an expense
+## Libraries and frameworks used
+- axios for server communication
+- redux for maintaining the state of the application
+- redux-persist for maintaining the state on refresh
+- react-router for managing navigation between components
+- redux-thunk for allowing redux to work with functions as actions
+- react-infinite-scroll-component for enabling user to scroll through paginated chunks of data
+- react-dropdown for creating and customizing a dropdown component
+- postcss for more advanced styling like writing inline properties or using font-face
 
-## General requirements
-A single page application using a modern JS library/framework including:
-- A visually pleasing experience, you don’t have to be a designer but you must have put an effort into making this look good
-- A "componentized" approach, split your code into small building blocks, showcase your clean architecture skills.
-- CSS can be written using PostCSS, SASS, LESS or similar higher-level language
-- The use of any libraries or frameworks as long as you can explain to us why you chose them.
-- A brief description of your project. How long did it take? Which part was the hardest to implement? What functionalities are you most proud of?
+## How did things go
+The project took around 30 hours of work. 
 
-## Nice to have
-Want to go the extra mile? Here's few suggestion of things we'd like to see (or go crazy and implement what you think will impress us).
-- Responsive design
-- Implement with a state management library (Redux, Mobx, VueX, ...)
-- Implement solution in TypeScript
-- Localization: support for multiple languages (English, French, ...)
+I believe that one of the mistakes I made was to overthink details. I oftentimes tend to imagine this perfect scenario and design for an application so that I need to constantly remind myself to focus on the big picture.
 
-## What we're looking for
-- Using high-quality existing libraries or small amounts of custom code. 
-- Production grade code (clean, maintainable, reusable code)
-- Showing your work through your commit history
-- Polish and visual creativity
-- Pride in craftsmanship
+Ramping back up was a bit slow as I haven't worked on a React application since university. I nevertheless enjoyed remembering how cool this technology is as well as finding out about new concepts.
 
-## A few last things 👇
- - Please note that while you are free to use libraries of your choosing, we encourage you to write at least some your own code. This is your chance to really impress us with your skills.
-- You are welcome to make changes to the API code if you think it will improve your solution
+## Difficulties
+The features that proved to be most difficult were "paging" navigation and image loading. I don't know why it took me some time to get my head around components routing, but well it works now. In the case of the image uploading, I discovered that Redux doesn't like File objects the hard way. I was trying to persist the uploaded image so that, before hitting the 'Save' button, if you accidentally refreshed the page, then the image would stay there.
+So I had two problems here: focusing too much on the refresh functionality which was not required but I was keen on making happen and my lack of knowledge about the File object which doesn't have any persistable properties, therefore it cannot be stored.
+Well, once I understood the problem, I refocused on what was important - getting the project done in a reasonable amount of time so I managed to overcome this hiccup.
+
+## Design
+I think that my design is pretty intuitive, simple and clean. It is highly responsive as you will notice while playing around with the app, filtering, or adding a comment or a receipt.
+The infinite scroll I find to be a nice touch. It allows you to load as many expenses as you need and filter through them as opposed to classical pagination which would mean filtering just one page at a time. 
+
+If you have the patience to scroll through all the 168 expenses, you'll find a small surprise at the end.
+
+Overall, this project was fun. I hope you guys like it!
