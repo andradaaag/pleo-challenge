@@ -37,4 +37,4 @@ The infinite scroll I find to be a nice touch. It allows you to load as many exp
 If you have the patience to scroll through all the 168 expenses, you'll find a small surprise at the end.
 
 
-Overall, this project was fun. I hope you guys like it! 😬
+Overall, this project was fun. I hope you guys like it! ✨
