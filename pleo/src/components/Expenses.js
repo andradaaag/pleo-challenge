@@ -23,11 +23,11 @@ class Expenses extends Component {
         this.handleSelect = this.handleSelect.bind(this)
         this.fetchMoreData = this.fetchMoreData.bind(this)
 
-        this.props.getExpenses(this.state.userEmail, 0, this.state.expensesPerPage, [])
+        this.props.getExpenses(this.state.userEmail, (e) => this.filter(e), 0, this.state.expensesPerPage, [])
     }
 
     fetchMoreData() {
-        this.props.getExpenses(this.state.userEmail, this.props.currentPage, this.state.expensesPerPage, this.props.expenses)
+        this.props.getExpenses(this.state.userEmail, (e) => this.filter(e), this.props.currentPage, this.state.expensesPerPage, this.props.expenses)
     }
 
     handleFilter(event) {
@@ -76,6 +76,9 @@ class Expenses extends Component {
         }
         const hasMore = this.props.currentPage * this.state.expensesPerPage < this.props.totalExpenses
         const filtered = this.props.expenses.filter((expense) => this.filter(expense))
+        if(filtered.length < this.state.expensesPerPage && hasMore) {
+            this.fetchMoreData()
+        }
         return (
             <div id="expenses" className="container">
                 <Filter

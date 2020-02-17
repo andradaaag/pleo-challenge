@@ -2,16 +2,16 @@ import axios from 'axios'
 
 const adminEmail = 'admin'
 
-export function getExpenses(userEmail, currentPage, expensesPerPage, expensesSoFar) {
+export function getExpenses(userEmail, filter, currentPage, expensesPerPage, expensesSoFar) {
     return dispatch => {
-        return getExpensesWrapper(userEmail, currentPage, expensesPerPage, expensesSoFar)
+        return getExpensesWrapper(userEmail, filter, currentPage, expensesPerPage, expensesSoFar)
             .then(result => {
                 dispatchExpenses(dispatch, result)
             })
     }
 }
 
-const getExpensesWrapper = async (userEmail, currentPage, expensesPerPage, expensesSoFar) => {
+const getExpensesWrapper = async (userEmail, filter, currentPage, expensesPerPage, expensesSoFar) => {
     var result = {
         expensesSoFar: expensesSoFar,
         currentPage: currentPage,
@@ -19,10 +19,12 @@ const getExpensesWrapper = async (userEmail, currentPage, expensesPerPage, expen
         keepFetchingExpenses: true
     }
 
-    result = await getExpensesByUser(userEmail, result.currentPage, expensesPerPage, result.expensesSoFar, result.numberOfAddedExpenses)
+    result = await getExpensesByUser(userEmail, filter, result.currentPage, expensesPerPage, result.expensesSoFar, result.numberOfAddedExpenses)
+    console.log("Result", result)
     result.currentPage += 1
     while (result.keepFetchingExpenses) {
-        result = await getExpensesByUser(userEmail, result.currentPage, expensesPerPage, result.expensesSoFar, result.numberOfAddedExpenses)
+        result = await getExpensesByUser(userEmail, filter, result.currentPage, expensesPerPage, result.expensesSoFar, result.numberOfAddedExpenses)
+        console.log("Result", result)
         result.currentPage += 1
     }
     return result
@@ -38,19 +40,19 @@ function dispatchExpenses(dispatch, result) {
     dispatch(loadInitialExpenses(data))
 }
 
-async function getExpensesByUser(userEmail, currentPage, expensesPerPage, expensesSoFar, numberOfAddedExpenses) {
+async function getExpensesByUser(userEmail, filter, currentPage, expensesPerPage, expensesSoFar, numberOfAddedExpenses) {
     const offset = currentPage * expensesPerPage
     const url = formURL(expensesPerPage, offset)
     const response = await getExpensesFromAPI(url)
 
-    return processResponse(userEmail, currentPage, expensesPerPage, expensesSoFar, numberOfAddedExpenses, response)
+    return processResponse(userEmail, filter, currentPage, expensesPerPage, expensesSoFar, numberOfAddedExpenses, response)
 }
 
-function processResponse(userEmail, currentPage, expensesPerPage, expensesSoFar, numberOfAddedExpenses, response) {
+function processResponse(userEmail, filter, currentPage, expensesPerPage, expensesSoFar, numberOfAddedExpenses, response) {
     const total = response.data.total
     const newExpenses = response.data.expenses
 
-    const newFilteredExpenses = filterExpenses(newExpenses, userEmail)
+    const newFilteredExpenses = filterExpenses(newExpenses, userEmail, filter)
     numberOfAddedExpenses += newFilteredExpenses.length
     expensesSoFar = expensesSoFar.concat(newFilteredExpenses)
     const keepFetchingExpenses = keepFetching(currentPage, expensesPerPage, numberOfAddedExpenses, total)
@@ -71,8 +73,8 @@ function keepFetching(currentPage, expensesPerPage, numberOfAddedExpenses, total
     return notEnoughPerPage && hasMore
 }
 
-function filterExpenses(expenses, userEmail) {
-    return expenses.filter(expense => expense.user.email === userEmail || userEmail === adminEmail)
+function filterExpenses(expenses, userEmail, filterFunc) {
+    return expenses.filter(expense => (expense.user.email === userEmail || userEmail === adminEmail) && filterFunc(expense))
 }
 
 function formURL(expensesPerPage, offset) {
