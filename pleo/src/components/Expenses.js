@@ -71,12 +71,9 @@ class Expenses extends Component {
     }
 
     render() {
-        if (!this.props.expenses || this.props.expenses.length === 0) {
-            return (<div />)
-        }
         const hasMore = this.props.currentPage * this.state.expensesPerPage < this.props.totalExpenses
         const filtered = this.props.expenses.filter((expense) => this.filter(expense))
-        if(filtered.length < this.state.expensesPerPage && hasMore) {
+        if (filtered.length < this.state.expensesPerPage && hasMore) {
             this.fetchMoreData()
         }
         return (

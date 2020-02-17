@@ -1,11 +1,17 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import logo from '../logo.svg'
+import * as actions from '../actions/clear'
+import { connect } from 'react-redux'
 
 class Welcome extends Component {
-    state = {
-        redirect: false,
-        userEmail: ''
+    constructor(props) {
+        super(props)
+        this.state = {
+            redirect: false,
+            userEmail: ''
+        }
+        this.props.clearStore()
     }
 
     setRedirect = () => {
@@ -54,4 +60,11 @@ class Welcome extends Component {
     }
 }
 
-export default Welcome
+
+const mapStateToProps = (state) => {
+    return {
+        ...state
+    }
+}
+
+export default connect(mapStateToProps, actions)(Welcome)
